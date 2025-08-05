@@ -1,5 +1,5 @@
 import java.util.*;
-public class anagram{
+public clas anagram{
 	public boolean isanagram(String s1, String s2){
 		char a[] = s1.toLowerCase().toCharArray();
 		char b[] = s2.toLowerCase().toCharArray();
