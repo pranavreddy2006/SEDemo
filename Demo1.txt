@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smarthub-app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mongo
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://mongo:27017/smarthubdb
+
+  mongo:
+    image: mongo:6.0
+    container_name: smarthub-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:
+
+
+# 1. Build JAR with Maven
+mvn clean package -DskipTests
+
+# 2. Build Docker image
+docker-compose build
+
+# 3. Start services
+docker-compose up -d
+
+# 4. Check containers
+docker ps
