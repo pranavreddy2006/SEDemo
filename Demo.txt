@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  tomcat-app:
+    image: pranav2006/smarthub-image:1.0   # your pushed image
+    container_name: smarthub-app
+    ports:
+      - "8080:8081"   # host:container (8080 on host → 8081 inside container)
+    depends_on:
+      - mysql-db
+
+  mysql-db:
+    image: mysql:8.0
+    container_name: smarthub-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: sahdb
+      MYSQL_USER: sahuser
+      MYSQL_PASSWORD: sahpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql   # persistence
+
+volumes:
+  db_data:
+
+
+
+
+docker-compose up -d
+docker exec -it smarthub-db mysql -u root -p
+USE sahdb;
+CREATE TABLE students (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(50),
+    marks INT
+);
+SHOW TABLES;
